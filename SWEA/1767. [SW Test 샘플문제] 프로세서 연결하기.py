@@ -50,5 +50,5 @@ for t in range(int(input())):
     A = [list(map(int, input().split()))for _ in range(N)]
     ans = 9999
     m_cnt = 0
-    sol(0, N,  A, 0, 0)
-    print(f'#{ t +1}', ans)
+    sol(0, N, A, 0, 0)
+    print(f'#{t +1}', ans)
