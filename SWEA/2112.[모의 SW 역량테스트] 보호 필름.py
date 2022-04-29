@@ -32,4 +32,3 @@ for t in range(int(input())):
     ans = k
     dfs(0, 0)
     print(f'#{t+1}',ans)
-
