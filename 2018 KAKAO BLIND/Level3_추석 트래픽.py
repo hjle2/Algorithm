@@ -29,5 +29,3 @@ def solution(lines):
     # for i in range(t_min, t_max):
     #     graph[i] += graph[i-1]
     return max(graph)
-
-solution(["2016-09-15 00:00:00.000 2.3s", "2016-09-15 23:59:59.999 0.1s"])
