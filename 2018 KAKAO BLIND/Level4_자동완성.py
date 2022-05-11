@@ -72,6 +72,3 @@ def solution(words):
             v = v[w][1]
         answer += min(len(word), cnt + 1)
     return answer
-
-
-solution(["go","gone","guild"])
