@@ -51,3 +51,4 @@ for _ in range(int(input())):
             A[a], A[b] = A[b], A[a]
             update(1, 0, N-1, a, A[a])
             update(1, 0, N-1, b, A[b])
+
