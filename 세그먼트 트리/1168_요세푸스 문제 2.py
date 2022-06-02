@@ -1,5 +1,6 @@
 import sys
 
+
 input = sys.stdin.readline
 
 
@@ -21,6 +22,7 @@ def update(i, v):
 def query(k):
     i = 1
     while k:
+        # 여기서 i-n ? i+1-n?
         if i*2 >= n*2:
             if tree[i]:
                 return i-n
@@ -35,11 +37,13 @@ def query(k):
 
 
 N, K = map(int, input().split())
+# bit_length?
 n = 1 << N.bit_length()
 tree = [0] * (n * 2)
 init()
 ans = []
 p = K
+# 역순으로 진행하는 이유는?
 for i in range(N, 0, -1):
     idx = query(p)
     update(idx, 0)
