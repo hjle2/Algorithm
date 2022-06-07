@@ -1,9 +1,8 @@
-
-def swap(s, e):
+def merge_sort(s, e):
     if s >= e:
         return 0
     m = (s+e)//2
-    ans = swap(s, m) + swap(m+1, e)
+    ans = merge_sort(s, m) + merge_sort(m+1, e)
 
     l, r = s, m+1
     tmp = []
@@ -23,6 +22,7 @@ def swap(s, e):
         A[s+i] = v
     return ans
 
+
 N = int(input())
 A = [*map(int, input().split())]
-print(swap(0, N-1))
+print(merge_sort(0, N-1))

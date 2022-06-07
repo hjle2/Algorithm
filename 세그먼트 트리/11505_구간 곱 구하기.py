@@ -1,49 +1,49 @@
-import math
 import sys
+from math import ceil, log2
 
 input = sys.stdin.readline
 
-
-def init(now, s, e):
+def init(i, s, e):
     if s == e:
-        tree[now] = A[s]
-        return A[s] % p
-    mid = (s + e) // 2
-    tree[now] = init(now*2, s, mid) * init(now*2+1, mid+1, e) % p
-    return tree[now]
+        tree[i] = A[s]
+        return
+    m = (s+e)//2
+    init(i*2, s, m)
+    init(i*2+1, m+1, e)
+    tree[i] = tree[i*2] * tree[i*2+1]
 
 
-def update(now, s, e, idx, v):
+def update(i, s, e, idx, v):
     if s > idx or e < idx:
-        return tree[now]
+        return
     if s == e:
-        tree[now] = v % p
-        return tree[now]
-    mid = (s + e) // 2
-    tree[now] = update(now*2, s, mid, idx, v) * update(now*2+1, mid+1, e, idx, v) % p
-    return tree[now]
+        tree[i] = v
+        return
+    m = (s+e)//2
+    update(i*2, s, m, idx, v)
+    update(i*2+1, m+1, e, idx, v)
+    tree[i] = tree[i*2] * tree[i*2+1]
 
 
-def interval_mult(now, s, e, frm, to):
-    if to < s or frm > e:
+def interval_mult(i, s, e, l, r):
+    if s > r or e < l:
         return 1
-    if frm <= s and to >= e:
-        return tree[now]
-    mid = (s + e) // 2
-    return interval_mult(now*2, s, mid, frm, to) * interval_mult(now*2+1, mid+1, e, frm, to) % p
+    if l <= s and e <= r:
+        return tree[i]
+    m = (s+e)//2
+    return interval_mult(i*2, s, m, l, r) * interval_mult(i*2+1, m+1, e, l, r)
 
 
-p = 1000000007
 N, M, K = map(int, input().split())
 A = [int(input())for _ in range(N)]
-n = math.ceil(math.log2(N)) + 1
+n = ceil(log2(N)) + 1
 n = 1 << n
-tree = [0] * n
+tree = [0]*n
 init(1, 0, N-1)
 
 for _ in range(M + K):
     a, b, c = map(int, input().split())
     if a == 1:
         update(1, 0, N-1, b-1, c)
-    elif a == 2:
+    else:
         print(interval_mult(1, 0, N-1, b-1, c-1))
