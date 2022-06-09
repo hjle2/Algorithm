@@ -1,5 +1,6 @@
 import sys
 
+# 1. 분할 정복 (세그먼트 트리)
 sys.setrecursionlimit(10**6)
 from math import ceil, log2
 
@@ -48,3 +49,27 @@ while True:
     tree = [0] * n
     init(1, 0, N-1)
     print(solve(0, N-1))
+
+# 2. Stack
+def get_area():
+    stack = []
+    ans = 0
+    for i in range(N):
+        while stack and H[stack[-1]] >= H[i]:
+            h = H[stack.pop()]
+            w = i - stack[-1] - 1 if stack else i
+            ans = max(ans, h * w)
+        stack.append(i)
+
+    while stack:
+        h = H[stack.pop()]
+        w = N - stack[-1] - 1 if stack else N
+        ans = max(ans, h * w)
+    return ans
+
+
+while True:
+    H = [*map(int, input().split())]
+    N = H.pop(0)
+    if N == 0: break
+    print(get_area())
