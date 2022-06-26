@@ -1,14 +1,11 @@
 def solve(s, e):
-    ret = 0
     if s == e:
-        return ret
+        return 0
     if dp[s][e]:
         return dp[s][e]
     if s+1 == e:
-        ret = rc[s][0] * rc[s][1] * rc[e][1]
-        dp[s][e] = ret
-        return ret
-
+        dp[s][e] = rc[s][0] * rc[s][1] * rc[e][1]
+        return dp[s][e]
     for i in range(s, e):
         ret = solve(s, i) + solve(i+1, e) + rc[s][0] * rc[i][1] * rc[e][1]
         if not dp[s][e] or ret < dp[s][e]:
