@@ -65,8 +65,8 @@
 # 0~4 를 구할 때 0~3이 0~1 + 2~3 이었다면 역시
 # 0~1 + 2~4 혹은 0~2 + 3~4 만 고려한다
 
-N, M = [int(x) for x in input().split()]
-lst = [0, *map(int, input().split()), N]
+N, M = map(int, input().split())
+lst = [0, *sorted(map(int, input().split())), N]
 
 M += 1
 dp = [[0] * M for _ in range(M+1)]
@@ -77,4 +77,4 @@ for l in range(1, M):
         dp[s][e], opt[s] = min((dp[s][k] + dp[k + 1][e], k)for k in range(opt[s], opt[s + 1] + 1))
         dp[s][e] += lst[e + 1] - lst[s]
 
-print(dp[0][-1])
+print(dp[0][M-1])
