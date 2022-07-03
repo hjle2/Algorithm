@@ -29,7 +29,7 @@ def insert(x):
     k.append(x)
     # 추가된 x 의 기울기가 더 높으면, 제거 한다
     # 기울기가 낮음 -> 같은 x 값에 대하여 더 낮은 y값을 갖는다.
-    while len(k) > 2 and getX(k[-3], k[-2]) > getX(k[-2], k[-1]):
+    while len(k) > 2 and getX(k[-3], k[-2]) >= getX(k[-2], k[-1]):
         k.pop(-2)
 
 
