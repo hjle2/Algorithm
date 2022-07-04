@@ -6,11 +6,9 @@ def isok(x0, y0, x1, y1):
                 s += 1
             elif A[x][y] == 2:
                 j += 1
-    if j == 1:
-        if s == 0:
-            return 1
-        else:
-            return 0
+
+    if j == 1 and s == 0:
+        return 1
     if s == 0 or j == 0:
         return 0
     return -1
@@ -48,12 +46,6 @@ def solve(x0, y0, x1, y1, d):
 
 N = int(input())
 A = [[*map(int, input().split())]for _ in range(N)]
-
-# while True:
-#     a, b, c, d, e, f = map(int, input().split())
-#     print(cancut(a, b, c, d, e, f))
-#     if a == 0 and c == 0:
-#         break
 
 ans = solve(0, 0, N, N, 0) + solve(0, 0, N, N, 1)
 print(ans if ans > 0 else -1)
