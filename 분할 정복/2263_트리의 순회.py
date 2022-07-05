@@ -23,17 +23,17 @@
 # 5 6 3 7 8 4 2 1
 #
 # 1 2 3 5 6 4 7 8
-import sys
-
-sys.setrecursionlimit(10**6)
-def getPreorder(inL, inR, postL, postR):
-    if inL > inR or postL > postR:
-        return
-    root = postorder[postR]
-    print(root, end=' ')
-
-    getPreorder(inL, idx[root]-1, postL, postL + idx[root] - inL - 1)
-    getPreorder(idx[root]+1, inR, postL + idx[root] - inL, postR-1)
+# import sys
+#
+# sys.setrecursionlimit(10**6)
+# def getPreorder(inL, inR, postL, postR):
+#     if inL > inR or postL > postR:
+#         return
+#     root = postorder[postR]
+#     print(root, end=' ')
+#
+#     getPreorder(inL, idx[root]-1, postL, postL + idx[root] - inL - 1)
+#     getPreorder(idx[root]+1, inR, postL + idx[root] - inL, postR-1)
 
 
 N = int(input())
@@ -42,4 +42,18 @@ postorder = [*map(int, input().split())]
 idx = [0] * (N+1)
 for i in range(N):
     idx[inorder[i]] = i
-getPreorder(0, N-1, 0, N-1)
+# getPreorder(0, N-1, 0, N-1)
+
+ret = []
+que = [(0, 0, N-1)]
+while que:
+    x, y, n = que.pop()
+    if n < 0:
+        continue
+    root = postorder[y + n]
+    print(root, end=' ')
+    if n == 0:
+        continue
+    i = idx[root]
+    que.append((i+1, y+i-x, n-i+x-1))
+    que.append((x, y, i-x-1))
