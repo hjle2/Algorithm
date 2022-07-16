@@ -1,4 +1,4 @@
 N = int(input())
-A = []
-for i in range(N):
-    A.append((int(input(), i)))
+A = [[int(input()), i] for i in range(N)]
+A.sort()
+print(max(A[i][1]-i for i in range(N))+1)
