@@ -25,3 +25,7 @@
 # dfs(1, 0)
 # dfs(far_node, diam)
 # print(diam)
+from collections import defaultdict
+
+graph = defaultdict(list)
+print(graph)
