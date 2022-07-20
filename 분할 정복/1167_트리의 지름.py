@@ -1,47 +1,37 @@
 import sys
-from collections import defaultdict
 
 input = sys.stdin.readline
+
 def dfs(node, d):
-    global far_node
-    global diam
+    global farNode
+    global distance
     visited[node] = True
-    if d > diam:
-        far_node, diam = node, d
-    # for u, c in graph[node]:
-    #     if not visited[u]:
-    #         dfs(u, d + c)
-    # for i in range(0, len(line[node]), 2):
-    #     nxt, dst = line[node][i:i+2]
-    #     if not visited[nxt]:
-    #         dfs(nxt, d + dst)
-    for u, c in line[node]:
-        if not visited[u]:
-            dfs(u, d + c)
+    if d > distance:
+        farNode, distance = node, d
 
-N = int(input()) + 1
-line = [[]for _ in range(N)]
+    for i, j in line[node]:
+        if not visited[i]:
+            dfs(i, d + j)
+            visited[i] = False
 
-for i in range(N-1):
+
+V = int(input()) + 1
+line = [[]for _ in range(V)]
+for i in range(V-1):
     tmp = [*map(int, input().split())]
-    key = tmp[0]
-    for j in range(1, len(tmp)-1, 2):
-        line[key].append(tmp[j:j+2])
+    for i in range(1, len(tmp)-1, 2):
+        line[tmp[0]].append([tmp[i], tmp[i+1]])
 
-# for i in range(1, N):
-#     line[i] = [*map(int, input().split())][1:-1]
-
-# graph = defaultdict(list)
-# for _ in range(N-1):
-#     temp = list(map(int,input().split()))
-#     key = temp[0]
-#     for i in range(1,len(temp)-1,2):
-#         graph[key].append((temp[i],temp[i+1]))
-
-visited = [False] * N
-far_node = diam = 0
+visited = [False] * V
+farNode = distance = 0
 dfs(1, 0)
-visited = [False] * N
-dfs(far_node, 0)
-print(diam)
+visited[1] = False
+dfs(farNode, 0)
+print(distance)
+# 4
+# 1 2 2 4 4 -1
+# 2 1 2 3 1 -1
+# 3 1 2 4 3 -1
+# 4 3 3 1 4 -1
+
 
