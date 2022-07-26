@@ -11,11 +11,18 @@ def ispossible(r, c, v):
     return True
 
 
-def dfs(n):
-    if n == len(lst):
-        return True
-    r, c = lst[n]
+def possiblecases(r, c):
+    ret = []
     for v in range(1, N+1):
+        if ispossible(r, c, v):
+            ret.append(v)
+    return ret
+
+def dfs(n):
+    if n == len(dic):
+        return True
+    r, c = key_list[n]
+    for v in dic[(r, c)]:
         if ispossible(r, c, v):
             ar[r][c] = v
             if dfs(n+1): return True
@@ -26,11 +33,26 @@ def dfs(n):
 N = 9
 ar = [[*map(int, input().split())]for _ in range(N)]
 lst = []
+dic = {}
+key_list = list(dic.keys())
 for i in range(N):
     for j in range(N):
         if ar[i][j] == 0:
-            lst.append((i, j))
+            dic[(i, j)] = possiblecases(i, j)
+            # lst.append((i, j))
+
+key_list = list(dic.keys())
 dfs(0)
 
 for i in range(N):
     print(*ar[i])
+
+# 0 0 0 0 0 0 0 0 1
+# 0 0 0 0 0 0 0 0 2
+# 0 0 0 0 0 0 0 0 3
+# 0 0 0 0 0 0 0 0 4
+# 0 0 0 0 0 0 0 0 5
+# 0 0 0 0 0 0 0 0 6
+# 0 0 0 0 0 0 0 0 7
+# 0 0 0 0 0 0 0 0 8
+# 0 0 0 0 0 0 0 0 9
