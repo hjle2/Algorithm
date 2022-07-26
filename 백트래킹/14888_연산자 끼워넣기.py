@@ -32,3 +32,4 @@ minA, maxA = 1e9, -1e9
 dfs(1, A[0])
 print(maxA, minA, sep='\n')
 
+# 연산을 eval 함수를 이용하면 C++14 기준으로 되나봄.. 통과됨..
