@@ -1,12 +1,12 @@
-N, K = map(int, input().split())
-wv = [[*map(int, input().split())] for _ in range(N)]
-dp = [[0] * (N + 1) for _ in range(K + 1)]
-# n번째 까지 담는 경우 중 가치가 더 큰 값
+N, K = map(int, input())
+wv = [[0] + [*map(int, input().split())]for _ in range(N)]
+dp = [[0]*(N+1)for _ in range(K+1)]
+# dp[k][n] = 무게 k 까지의 1번째 ~ n번쨰 물건을 넣었을 때의 최대 가치
 
-for k in range(1, K + 1):
-    for n in range(1, N + 1):
-        if wv[n-1][0] <= k:
-            dp[k][n] = max(dp[k][n-1], dp[k-wv[n-1][0]][n-1] + wv[n-1][1])
+for k in range(1, K+1):
+    for n in range(1, N+1):
+        if k < wv[n]:
+            dp[k][n] = max(dp[k][n-1], dp[k-wv[n][0][n] + wv[n][0]])
         else:
             dp[k][n] = dp[k][n-1]
-print(dp[K][N])
+print(dp[-1][-1])
