@@ -8,7 +8,7 @@ ar = [*map(int, input().split())]
 # 이 문제는 연속 합의 나머지가 0인 i, j 쌍의 갯수를 구해야 한다
 # 여기에서 (sum[j] - sum[i]) % M == 0 인 i, j쌍은
 # sum[j] % M - sum[i] % M == 0
-# sum[j] % M == sum[i] % M 인 i, j 쌍의 갯수를 구해야 한다.
+# sum[j] % M == sum[i] % M 인 i, j 쌍의 갯수를 구해야 한다. !! 이 부분이 포인트
 
 sum = 0
 cnt = [0] * M
