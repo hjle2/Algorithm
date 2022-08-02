@@ -10,14 +10,11 @@ def getDPVal(i, j):
     if i == 0: return 1
     if nums[j] != nums[j+i]:
         return 0
+    if i == 1:
+        return 1
+    return dp[i-2][j+1]
 
-    for k in range(1, i//2+1):
-        i-=2;j+=1
-        if i%2 and not dp[i][j]:
-            return 0
-    return 1
-
-def makeDP(N, nums, M):
+def makeDP(N):
     global dp
     dp = [[0] * N for _ in range(N)]
     for i in range(N):
@@ -39,4 +36,3 @@ def solve():
 
 if __name__ == "__main__":
     solve()
-
