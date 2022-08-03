@@ -1,19 +1,28 @@
 import sys
+
 input = sys.stdin.readline
 
-def isPossibleToPast(now, t, first):
-    if not first and now == 1:
-        if t < 0:
-            print(-1)
-            exit()
-        return
-    for dest, time in busLines[now]:
-        isPossibleToPast(dest, t + time, False)
 
+def bellman_ford():
+    for i in range(N):
+        for now, nxt, t in busLines:
+            if ans[now] != INF and ans[nxt] > ans[now] + t:
+                if i == N-1:
+                    return True
+                ans[nxt] = ans[now] + t
+    return False
+
+INF = 1e9
 N, M = map(int, input().split())
-busLines = [[]for _ in range(N+1)]
-
+busLines = []
 for _ in range(M):
     a, b, c = map(int, input().split())
-    busLines[a].append((b, c))
-isPossibleToPast(1, 0, True)
+    busLines.append((a, b, c))
+
+ans = [INF] * (N + 1)
+ans[1] = 0
+if bellman_ford():
+    print(-1)
+else:
+    for i in ans[2:]:
+        print(i if i < INF else -1)
