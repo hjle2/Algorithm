@@ -2,9 +2,8 @@
 # 연속적인 며칠 동안 온도의 합이 가장 큰 값
 
 N, K = map(int, input().split())
-ar = [*map(int, input().split())]
-sum = [ar[0]]
-for i in range(1, N):
-    sum.append(sum[i-1] + ar[i])
+ar = [0, *map(int, input().split())]
+for i in range(1, N+1):
+    ar[i] += ar[i-1]
 
-print(max(sum[i] - sum[i-K] for i in range(K, N)))
+print(max(ar[i] - ar[i-K] for i in range(K, N+1)))
