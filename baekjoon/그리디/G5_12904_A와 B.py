@@ -1,18 +1,13 @@
-# 두 문자열이 주어졌을 때 1 문자열을 2로 바꾸는 게임
-# 연산은
-# 문자열 뒤에 A를 추가한다
-# 문자열을 뒤집고 뒤에 B를 추가한다
-# 이 두 가지 연산만 가능하다
-# 바꿀 수 있으면 1 없으면 0 출력
+def solve():
+    cnt = len(t) - len(s)
+    while cnt:
+        cnt-=1
+        c = t.pop() # t의 맨 뒤글자를 비교
+        if c == 'B': # B라면 문자의 순서를 뒤집는다
+            t.reverse()
 
-A = [*input()]
-B = [*input()]
-cnt = len(B) - len(A)
+s = [*input()]
+t = [*input()]
 
-while cnt:
-    cnt-=1
-    c = B.pop()
-    if c == 'B':
-        B.reverse()
-
-print(1 if A == B else 0)
+solve()
+print(1 if s == t else 0) # 두 문자의 길이가 같아졌을 때 같은 문자라면 1 아니면 0
