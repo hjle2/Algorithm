@@ -1,16 +1,14 @@
-import sys
 import heapq
+import sys
 input = sys.stdin.readline
+n = int(input())
 
-N = int(input())
-ST = [[*map(int, input().split())]for _ in range(N)]
-ST.sort()
+st = [[*map(int, input().split())]for _ in range(n)]
+st.sort() # 강의 시작시간 기준으로 정렬
 
-heap = []
-heapq.heappush(heap, ST[0][1])
-
-for i in range(1, N):
-    if ST[i][0] >= heap[0]:
-        heapq.heappop(heap)
-    heapq.heappush(heap, ST[i][1])
-print(len(heap))
+que = [st[0][1]] # 첫번째 강의의 종료 시간
+for i in range(1, n):
+    if que[0] <= st[i][0]: # 가장 일찍 끝나는 강의 시간보다 더 늦게 시작하면 ㄱㅊ
+        heapq.heappop(que)
+    heapq.heappush(que, st[i][1]) # 쌓인 강의 수가 필요한 강의실의 수가 된다.
+print(len(que)) # 쌓인 강의
