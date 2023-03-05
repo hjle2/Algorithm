@@ -1,98 +1,86 @@
-class UserSolution
-{
-    class Node {
-        int id;
-        int v;
-        Node nxt;
-
-        public Node() {
-        }
-        public Node(int id, int v) {
-            this.id = id;
-            this.v = v;
-            nxt = null;
-        }
-    }
+public class UserSolution_copy {
     class Team {
-        Node[] head = new Node[6];
-        Node[] tail = new Node[6];
-    }
+        Node head[];
+        Node tail[];
 
-    int solderTeam[];
-    int solderVersion[];
-
-    Team teams[];
-
-    public Node getNode(int id) {
-        if (id == 0) {
-            return new Node(id, 0);
+        public Team() {
+            head = new Node[MAX_SCORE + 1];
+            tail = new Node[MAX_SCORE + 1];
         }
-        Node newNode = new Node(id, ++solderVersion[id]);
-        return newNode;
     }
-    public void init()
-    {
-        solderTeam = new int[100001];
-        solderVersion = new int[100001];
+    class Node {
+        int idx;
+        int version;
+        Node nxt;
+        public Node() {}
+        public Node(int idx, int version) {
+            this.idx = idx;
+            this.version = version;
+            this.nxt = null;
+        }
+    }
+    int version[], team[];
+    Team teams[];
+    final int MAX_ID = 1000000;
+    final int MAX_TEAM = 5;
+    final int MAX_SCORE = 5;
 
-        teams = new Team[6];
-        for (int i=1; i<6; i++) {
+    public void init() {
+        teams = new Team[MAX_TEAM + 1];
+        for (int i=1; i<=MAX_TEAM; i++) {
             teams[i] = new Team();
 
-            for (int j=1; j<6; j++) {
-                Node node = getNode(0);
+            for (int j=1; j<=MAX_SCORE; j++) {
+                Node node = new Node(0, 0);
                 teams[i].head[j] = teams[i].tail[j] = node;
             }
         }
+
+        version = new int[MAX_ID + 1];
+        team = new int[MAX_ID + 1];
     }
 
-    public void hire(int mID, int mTeam, int mScore)
-    {
+    public Node getNode(int idx) {
+        Node node = new Node(idx, ++version[idx]);
+        return node;
+    }
+    public void hire(int mID, int mTeam, int mScore) {
         Node node = getNode(mID);
         teams[mTeam].tail[mScore].nxt = node;
         teams[mTeam].tail[mScore] = node;
-        solderTeam[mID] = mTeam;
+
+        team[mID] = mTeam;
     }
-
-    public void fire(int mID)
-    {
-        solderVersion[mID] = -1;
+    public void fire(int mID) {
+        version[mID] = -1; // disable 처리
     }
-
-    public void updateSoldier(int mID, int mScore)
-    {
-        int team = solderTeam[mID];
-        Node node = getNode(mID);
-        teams[team].tail[mScore].nxt = node;
-        teams[team].tail[mScore] = node;
+    public void updateSoldier(int mID, int mScore) {
+        hire(mID, team[mID], mScore);
     }
-
-    public void updateTeam(int mTeam, int mChangeScore)
-    {
-        if (mChangeScore > 0) {
-            for (int i=5; i>0; i--) {
-
-                int k = i + mChangeScore;
-                k = k > 5 ? 5 : k;
-
-                if (i == k) continue;
-
-                if (teams[mTeam].head[i].nxt == null) continue;
-                teams[mTeam].tail[k].nxt = teams[mTeam].head[i].nxt;
-                teams[mTeam].tail[k] = teams[mTeam].tail[i];
-
-                teams[mTeam].head[i].nxt = null;
-                teams[mTeam].tail[i] = teams[mTeam].head[i];
-            }
-        }
-
+    public void updateTeam(int mTeam, int mChangeScore) {
         if (mChangeScore < 0) {
-            for (int i=1; i<=5; i++) {
-
+            for (int i=1; i<=MAX_SCORE; i++) {
                 int k = i + mChangeScore;
                 k = k < 1 ? 1 : k;
 
-                if (i == k) continue;
+                // !! 옮기고 나서 다시 지워벼리지 않게 주의
+                if (k == i) continue;
+
+                // !! teams == null인 경우
+                if (teams[mTeam].head[i].nxt == null) continue;
+                teams[mTeam].tail[k].nxt = teams[mTeam].head[i].nxt;
+                teams[mTeam].tail[k] = teams[mTeam].tail[i];
+
+                teams[mTeam].head[i].nxt = null;
+                teams[mTeam].tail[i] = teams[mTeam].head[i];
+            }
+        }
+        if (mChangeScore > 0) {
+            for (int i=MAX_SCORE; i>=1; i--) {
+                int k = i + mChangeScore;
+                k = k > 5 ? 5 : k;
+
+                if (k == i) continue;
 
                 if (teams[mTeam].head[i].nxt == null) continue;
                 teams[mTeam].tail[k].nxt = teams[mTeam].head[i].nxt;
@@ -101,24 +89,21 @@ class UserSolution
                 teams[mTeam].head[i].nxt = null;
                 teams[mTeam].tail[i] = teams[mTeam].head[i];
             }
-
         }
     }
-
-    public int bestSoldier(int mTeam)
-    {
-        for (int i=5; i>0; i--) { // 점수 순서대로 순회
-            Node node = teams[mTeam].head[i].nxt;
+    public int bestSoldier(int mTeam) {
+        for (int i=MAX_SCORE; i>=1; i--) {
+            Node node = teams[mTeam].head[i];
             if (node == null) continue;
-            int ans = 0;
+            int idx = 0;
             while (node != null) {
-                if (node.v == solderVersion[node.id]) {
-                    ans = node.id > ans ? node.id : ans;
+                if (node.version == version[node.idx]) {
+                    idx = node.idx > idx ? node.idx : idx;
                 }
                 node = node.nxt;
             }
-
-            if (ans != 0) return ans;
+            if (idx != 0)
+                return idx;
         }
         return 0;
     }
