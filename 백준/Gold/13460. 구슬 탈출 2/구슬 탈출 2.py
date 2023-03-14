@@ -34,7 +34,7 @@ def move(rx, ry, bx, by, d):
     return r, c, x, y
 
 
-def get_ans(rx, ry, bx, by):
+def get_ans(rx, ry, bx, by): # bfs방식 선택 dfs방식으로도 해결 가능하나 백트래킹 조건 필요
     v[rx][ry][bx][by] = True
     q = deque([(rx, ry, bx, by, 1)])
     while q:
