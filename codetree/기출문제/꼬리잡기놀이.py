@@ -158,7 +158,3 @@ for i in range(k):
     score += tmp
     # change_dir()
 print(score)
-
-# 이동선은 -1로 표시하고
-# 각 순서를 표시
-#
