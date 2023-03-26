@@ -1,128 +1,101 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class Solution {
-    // int의 MAX
-    final static int HASH_SIZE = (int)Math.pow(2, 30) - 1;
-    final static int horizonHash = 4; // 해시 함수에서 사용할 숫자
-    final static int verticalHash = 5; // 해시 함수에서 사용할 숫자
+class Solution {
+
+    private static long[] dreamRowHash;
+    private static long[][] teacherRowHash;
+
+    private static int H, W; // 꿈에서 본 그림의 크기 -> 해시를 구할 격자의 크기
+    private static long hash, power; // getRowHash 또는 getColumnHash할 때 갱신되고 그 다음 해시를 구하는 getRightHash에서 활용됨
 
     public static void main(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
-        int TC = sc.nextInt();
-        for (int tc = 1; tc <= TC; tc++) {
-            int H = sc.nextInt();
-            int W = sc.nextInt();
-            int N = sc.nextInt();
-            int M = sc.nextInt();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-            int[][] dream = new int[H][W];
-            int[][] draw = new int[N][M];
+        int T = Integer.parseInt(br.readLine());
+        for (int testCase = 1; testCase <= T; testCase++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            H = Integer.parseInt(st.nextToken());
+            W = Integer.parseInt(st.nextToken());
+            int N = Integer.parseInt(st.nextToken());
+            int M = Integer.parseInt(st.nextToken());
 
-            for (int i=0; i<H; i++) {
-                String str = sc.next();
-                for (int j=0; j<W; j++) {
-                    dream[i][j] = str.charAt(j) == 'o' ? 1 : 0;
+            int widthGap = M - W;
+            int heightGap = N - H;
+
+            // i행의 해시
+            dreamRowHash = new long[H];
+            for (int h = 0; h < H; h++) {
+                dreamRowHash[h] = getRowHash(br.readLine());
+            }
+            // 전체 해시
+            long dreamHash = getColumnHash(dreamRowHash);
+
+            // 가로로 해시 구하기
+            teacherRowHash = new long[N + 1][M + 1];
+            for (int i = 0; i < N; i++) {
+                String line = br.readLine();
+                teacherRowHash[0][i] = getRowHash(line);
+
+                for (int j = 0; j < widthGap; j++) {
+                    teacherRowHash[j + 1][i] = getRightHash(line, j);
                 }
             }
 
-            for (int i=0; i<N; i++) {
-                String str = sc.next();
-                for (int j=0; j<M; j++) {
-                    draw[i][j] = str.charAt(j) == 'o' ? 1 : 0;
+            // 세로로 해시 구하면서 꿈에서 본 그림이랑 비교하기
+            int count = 0;
+            for (int j = 0; j <= widthGap; j++) {
+                if (dreamHash == getColumnHash(teacherRowHash[j])) {
+                    count++;
+                }
+
+                for (int i = 0; i < heightGap; i++) {
+                    if (dreamHash == getRightHash(j, i)) {
+                        count++;
+                    }
                 }
             }
-            System.out.printf("#%d %d\n", tc, solution(dream, draw));
-        }
 
+            sb.append("#").append(testCase).append(" ").append(count).append("\n");
+        }
+        System.out.print(sb);
     }
 
-    static int solution(int[][] draw, int[][] dream) {
-        // 선생님이 그린 그림
-        int H = draw.length;
-        int W = draw[0].length;
-        // 은주가 꿈에서 본 그림
-        int N = dream.length;
-        int M = dream[0].length;
-        int hashVal = getHash(draw, H, W)[0][0];
-        int[][] hashArr = getHash(dream, H, W);
-        int cnt = 0;
-        for (int i=0; i<=N-H; i++) {
-            for (int j=0; j<=M-W; j++) {
-                cnt = hashArr[i][j] == hashVal ? cnt + 1 : cnt;
-            }
-        }
-        return cnt;
-    }
-
-    /**
-     *
-     * @param matrix: hash값을 구할 2차 배열
-     * @param height: 구할 해시의 높이 단위
-     * @param width: 구할 해시의 넓이 단위
-     * @return 구한 해시의 배열 값
-     */
-    static int[][] getHash(int[][] matrix, int height, int width) {
-        int H = matrix.length;
-        int W = matrix[0].length;
-
-        // 1. 먼저 가로 해시값을 구한다.
-        int[][] horizonHashArr = new int[H][W - width + 1];
-        int horizonMaxP = getMaxPower(width, horizonHash); // 가장 앞자리를 제거하기 위한 MaxPower숫자를 구한다
-
-        for (int i=0; i<H; i++) {
-            int hash = getHorizonHash(matrix, width, i, 0);
-            horizonHashArr[i][0] = hash;
-            for (int j=1; j<=W-width; j++) {
-                horizonHashArr[i][j] = getNext(horizonHashArr[i][j-1], matrix[i][j-1], horizonMaxP, matrix[i][j-1+width], horizonHash);
+    private static long getRowHash(String line) {
+        hash = 0;
+        power = 1;
+        for (int w = 0; w < W; w++) {
+            hash += line.charAt(W - w - 1) * power; // ?1. 왜 뒤쪽부터 해쉬에 더해줘야 하는지..?
+            if (w < W - 1) {
+                power *= 33;
             }
         }
 
-        // 2. 가로 해시 값에서 세로 해시값을 구한다
-        int verticalMaxP = getMaxPower(height, verticalHash);
-        int[][] verticalHashArr = new int[H - height + 1][W - width + 1];
-        for (int j=0; j<=W-width; j++) {
-            int hash = getVerticalHash(horizonHashArr, height, 0, j);
-            verticalHashArr[0][j] = hash;
-            for (int i=1; i<=H-height; i++) {
-                verticalHashArr[i][j] = getNext(verticalHashArr[i-1][j], horizonHashArr[i-1][j], verticalMaxP, horizonHashArr[i-1+height][j], verticalHash);
+        return hash;
+    }
+
+    private static long getColumnHash(long[] rowHash) {
+        hash = 0;
+        power = 1;
+        for (int h = 0; h < H; h++) {
+            hash += rowHash[H - h - 1] * power;
+            if (h < H - 1) {
+                power *= 5381;
             }
         }
-        return verticalHashArr;
+
+        return hash;
     }
 
-    static int getMaxPower(int len, int shift) {
-        int result = 1;
-        for (int i=0; i < len - 1; i++) { // len - 1 인 이유? 첫번째 자리는 0 or 1
-            result = (result << shift) + result;
-        }
-        return result; // 해시 테이블의 사이즈 HASH_SIZE 해시 테이블의 주소값 반환하기
+    private static long getRightHash(String line, int prv) {
+        hash -= line.charAt(prv) * power;
+        return hash = hash * 33 + line.charAt(prv + W);
     }
 
-    static int getHorizonHash(int[][] matrix, int len, int row, int col) {
-        int result = 0;
-        for (int i=0; i<len; i++) {
-            // result << 4 는 result * 16과 동일
-            // (result << 4) + result 는 result * 17과 동일
-            // 소수 17을 사용
-            result = (result << horizonHash) + result + matrix[row][col + i];
-        }
-        return result;
-    }
-
-    static int getVerticalHash(int[][] matrix, int len, int row, int col) {
-        int result = 0;
-        for (int i=0; i<len; i++) {
-            // result << 5 는 result * 32과 동일
-            // (result << 5) + result 는 result * 33과 동일
-            // 소수 33을 사용
-            result = (result << verticalHash) + result + matrix[row + i][col];
-        }
-        return result;
-    }
-
-    static int getNext(int prev, int del, int maxPower, int add, int shift) {
-        int result = prev - del * maxPower; // 맨 앞자리의 숫자 제거
-        result = (result << shift) + result + add; // 현재 해쉬를 1bit 밀고, 한자리 추가
-        return result;
+    private static long getRightHash(int j, int i) {
+        hash -= teacherRowHash[j][i] * power;
+        return hash = hash * 5381 + teacherRowHash[j][i + H];
     }
 }
