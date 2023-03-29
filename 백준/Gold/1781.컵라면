@@ -1,0 +1,12 @@
+import heapq
+n = int(input())
+day_cup = sorted([[*map(int, input().split())]for _ in range(n)])
+
+que = []
+
+for day, cup in day_cup:
+    heapq.heappush(que, cup)
+
+    while len(que) > day:
+        heapq.heappop(que)
+print(sum(que))
