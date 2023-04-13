@@ -46,6 +46,8 @@ public class Main {
 
             if (!steal.isEmpty()) {
                 ans += steal.poll();
+            } else if (j == n) {
+                break;
             }
         }
 
