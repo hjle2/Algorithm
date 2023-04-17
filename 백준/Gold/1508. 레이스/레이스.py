@@ -8,7 +8,7 @@ referee = [*map(int, input().split())]
 def getRet(gap):
     ret = []
     cnt = 0
-    limit = -1
+    limit = 0
     for i in range(k):
         if limit <= referee[i]:
             cnt+=1
