@@ -49,7 +49,6 @@ public class Main {
                 answer.append(cur.num).append(' ').append(MOVE_UP).append('\n');
                 r--;
             }
-            cur.r = r;
         }
         for (int i = n-1; i >= 0; i--) {
             Tank cur = arr[i];
@@ -60,7 +59,6 @@ public class Main {
                 answer.append(cur.num).append(' ').append(MOVE_DOWN).append('\n');
                 r++;
             }
-            cur.r = r;
         }
 
         // horizontal
