@@ -1,55 +1,61 @@
 from collections import deque
 
-def bfs(r, c):
-    q = deque([(r, c)])
-    dist  = [[-1]*C for _ in range(R)]
-    dist[r][c] = 0
-    while q:
-        r, c = q.popleft()
-        for dr, dc in d:
-            nr, nc = r + dr, c + dc
-            if 0<=nr<R and 0<=nc<C and dist[nr][nc] < 0 and A[nr][nc] != '*':
-                if A[nr][nc] == '.':
-                    dist[nr][nc] = dist[r][c]
-                    q.appendleft((nr, nc))
-                elif A[nr][nc] == '#':
-                    dist[nr][nc] = dist[r][c] + 1
-                    q.append((nr, nc))
-    return dist
-
 
 def find_prisoner():
-    que = deque([(0, 0)])
-    for r in range(R):
-        for c in range(C):
-            if A[r][c] == '$':
-                que.append((r, c))
-                A[r][c] = '.'
-    return que
+    prisoner = [(0, 0)]
+    for i in range(1, r-1):
+        for j in range(1, c-1):
+            if board[i][j] == '$':
+                prisoner.append((i, j))
+    return prisoner
 
 
-d = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+def bfs(pt):
+    x, y = pt
+    v = [[-1] * c for _ in range(r)]
+    v[x][y] = 0
+    que = deque([(x, y)])
+    while que:
+        x, y = que.popleft()
+        for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+            nx, ny = x + dx, y + dy
+            if 0 > nx or 0 > ny or nx >= r or ny >= c or v[nx][ny] != -1 or board[nx][ny] == '*': continue
+            if board[nx][ny] == '#':
+                v[nx][ny] = v[x][y] + 1
+                que.append((nx, ny))
+            else:
+                v[nx][ny] = v[x][y]
+                que.appendleft((nx, ny))
+    return v
+
+
+def in_range(x, y):
+    return 0 <= x < r and 0 <= y < c
+
+
+def get_ans(one, two, three):
+    ans = 1e9
+    for i in range(r):
+        for j in range(c):
+            if one[i][j] == -1 or two[i][j] == -1 or three[i][j] == -1:
+                continue
+            tmp = one[i][j] + two[i][j] + three[i][j]
+            if board[i][j] == '#':
+                tmp -= 2
+            ans = min(ans, tmp)
+    return ans
+
+
 for _ in range(int(input())):
-    R, C = map(int, input().split())
-    A = [['.', *input().rstrip(), '.']for _ in range(R)]
-    R, C = R+2, C+2
-    A.insert(0, ['.'] * C)
-    A.append(['.'] * C)
+    r, c = map(int, input().split())
+    board = [['.', *input().rstrip(), '.']for _ in range(r)]
+    r += 2
+    c += 2
+    board.insert(0, ['.'] * c)
+    board.append(['.'] * c)
+    prisoners = find_prisoner()
+    one = bfs(prisoners[0])
+    two = bfs(prisoners[1])
+    three = bfs(prisoners[2])
 
-    que = find_prisoner()
-    r, c = que.popleft()
-    d1 = bfs(r, c)
-    r, c = que.popleft()
-    d2 = bfs(r, c)
-    r, c = que.popleft()
-    d3 = bfs(r, c)
-
-    ans = R * C
-    for r in range(R):
-        for c in range(C):
-            if d1[r][c] >= 0 and d2[r][c] >= 0 and d3[r][c] >= 0:
-                k = d1[r][c] + d2[r][c] + d3[r][c]
-                if A[r][c] == '#': k -= 2
-                ans = min(ans, k)
-    print(ans)
-
+    print(get_ans(one, two, three))
