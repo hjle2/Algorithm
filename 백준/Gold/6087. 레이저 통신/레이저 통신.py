@@ -20,19 +20,15 @@ def bfs(s, e):
         for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
             nx, ny = x + dx, y + dy
 
-            while 0 <= nx < r and 0 <= ny < c:
-                if board[nx][ny] == '*':
-                    break
-
-                if v[nx][ny] != -1:
-                    nx, ny = nx + dx, ny + dy
-                    continue
-                    
+            # 레이저의 방향대로 먼저 다 찾기
+            while 0 <= nx < r and 0 <= ny < c and board[nx][ny] != '*':
                 if (nx, ny) == e:
                     return v[x][y] + 1
 
-                que.append((nx, ny))
-                v[nx][ny] = v[x][y] + 1
+                # 이 조건에 해당 안되는 애들은 패스하고 다음 칸을 탐색해야 함!!!!!
+                if v[nx][ny] == -1:
+                    que.append((nx, ny))
+                    v[nx][ny] = v[x][y] + 1
                 nx, ny = nx + dx, ny + dy
 
 
