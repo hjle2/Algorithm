@@ -7,9 +7,11 @@ def get_ans():
         if stack and stack[-1][1] > cur_h:
             while stack and stack[-1][1] > cur_h:
                 tmp_i, tmp_h = stack.pop()
+                # 이 부분 width 를 계산하는 부분이 포인트
                 width = i
                 if stack:
                     width = i - 1 - stack[-1][0]
+                # <<
                 square = width * tmp_h
                 ans = max(ans, square)
 
@@ -32,3 +34,7 @@ while True:
     if n == 0:
         break
     print(get_ans())
+# 7 2 1 4 5 1 3 3
+# 4 1000 1000 1000 1000
+# 7 8 7 1 1 1 9 6
+# 0
