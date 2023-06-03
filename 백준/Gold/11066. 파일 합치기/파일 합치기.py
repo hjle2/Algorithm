@@ -18,3 +18,19 @@ for _ in range(int(input())):
             dp[s][e] = min(dp[s][s + k] + dp[s + k + 1][e] for k in range(i-1))
             dp[s][e] += S[e] - S[s-1]
     print(dp[1][-1])
+
+   
+
+### 더 빠르지만 이해하지 못한 풀이
+for _ in range(int(input())):
+    N = int(input())
+    lst = [*map(int, input().split())]
+    dp = [[0] * N for _ in range(N+1)]
+    ot = [*range(N)]
+
+    for d in range(1, N):
+        for s in range(N-d):
+            e = s + d
+            dp[s][e], ot[s] = min((dp[s][k] + dp[k+1][e], k)for k in range(ot[s], ot[s+1]+1))
+            dp[s][e] += sum(lst[s:e+1])
+    print(dp[0][-1])
