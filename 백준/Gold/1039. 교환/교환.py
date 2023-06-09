@@ -4,10 +4,6 @@ n, k = map(int, input().split())
 m = len(str(n))
 
 
-def arr_to_int(arr):
-    return int(''.join(map(str, arr)))
-
-
 def solve():
     ans = 0
     visited = set()
@@ -21,14 +17,14 @@ def solve():
             ans = max(ans, cur)
             continue
 
-        nums = [*map(int, str(cur))]
+        nums = [*str(cur)]
 
         # 모든 숫자 교환해서 que에 담아주기
         for i in range(m-1):
             for j in range(i+1, m):
-                if i == 0 and nums[j] == 0: continue
+                if i == 0 and nums[j] == '0': continue
                 nums[i], nums[j] = nums[j], nums[i]     # 연산 수행하기 위해 숫자 교환하기
-                num = arr_to_int(nums)                  # 연산 수행 결과를 숫자로 바꾸기
+                num = int(''.join(nums))                 # 연산 수행 결과를 숫자로 바꾸기
                 if (num, cnt + 1) not in visited:        # 연산 결과가 이미 구해져있던 답이라면 중복 계산하지 않기
                     visited.add((num, cnt + 1))
                     que.append((num, cnt + 1))
