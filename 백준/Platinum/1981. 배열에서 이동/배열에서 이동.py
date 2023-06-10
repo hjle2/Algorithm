@@ -29,19 +29,20 @@ def bfs(left, right):
     return False
 
 
-start = 0               # 이 값이 왜 min_v이면 안됨?
-end = max_v - min_v     # 이 값은 무슨 의미를 갖는 거지?
+def check(mid):
+    for i in range(min_v, max_v + 1): # 최대-최소 값이 최소값이 i, 그 차이가 mid일 경우 bfs
+        if i <= board[0][0] <= i + mid and i <= board[-1][-1] <= i + mid: # bfs탐색을 덜 할 수 있게하는 조건
+            if bfs(i, i + mid):
+                return True
+    return False
+
+        
+start = 0               # 최대, 최소값의 차이를 구할 시작점
+end = max_v - min_v     # 최대, 최소값의 차이
 while start <= end:     # 분할 정복이 끝남을 의미
     mid = (start + end) // 2    # 분할 정복을 위한 가운데를 의미
 
-    suc = False
-    for i in range(min_v, max_v+1):
-        if i <= board[0][0] <= i + mid and i <= board[-1][-1] <= i + mid:   # bfs탐색을 덜 하기 위한 조건
-            check = bfs(i, i+mid)
-            if check:
-                suc = True
-                break
-    if suc:
+    if check(mid):
         end = mid - 1
     else:
         start = mid + 1
