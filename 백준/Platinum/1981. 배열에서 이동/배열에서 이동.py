@@ -4,7 +4,7 @@ n = int(input())
 board = [[*map(int, input().split())] for _ in range(n)]
 
 # 배열 내부의 가장 작은 값, 큰 값 구하기
-min_v, max_v = 1e9, 0
+min_v, max_v = 200, 0
 for i in range(n):
     min_v = min(min_v, min(board[i]))
     max_v = max(max_v, max(board[i]))
