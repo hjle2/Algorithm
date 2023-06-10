@@ -43,3 +43,13 @@ for card in cards:
         e = find_end(card)
         ans.append(e - s + 1)
 print(*ans)
+
+# from collections import Counter
+
+# Counter를 사용해서 풀 수 있는 방법!
+# n = int(input())
+# sang = [*map(int, input().split())]
+# c = Counter(sang)
+# m = int(input())
+# for card in input().split():
+#     print(c[int(card)], end=' ')
