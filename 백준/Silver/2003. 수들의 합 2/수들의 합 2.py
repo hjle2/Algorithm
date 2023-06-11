@@ -1,15 +1,12 @@
 n, m = map(int, input().split())
-ar = list(map(int, input().split()))
+ar = [*map(int, input().split())]
 
-ans = 0
-sum = 0
-end = 0
-
-for i in range(n):
-    while sum < m and end < n:  # 구간합이 m보다 작을 동안, end가 인덱스 범위내에 있을 동안만 반복
-        sum += ar[end]          # 구간합 구하기
-        end += 1                # 인덱스 증가시키기
+ans, sum, j = 0, 0, 0
+for i in range(n):      # 두 포인터 i, j로 구간합을 탐색한다
+    while j < n and sum < m:
+        sum += ar[j]
+        j += 1
     if sum == m:
         ans += 1
-    sum -= ar[i]                # 다음 i부터 구간합을 구하기위해 현재 값은 빼준다
+    sum -= ar[i]        # sum에서 ar[i]를 빼주고, i+1 ~ j 구간합에서부터 이어서 계산한다.
 print(ans)
