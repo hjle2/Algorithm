@@ -1,10 +1,9 @@
-import sys
-input = sys.stdin.readline
-
-
 n = int(input())
-l = sorted([int(input()) for _ in range(n)])
+a = [int(input()) for _ in range(n)]
+a.sort()
+
 ans = 0
-for i, li in enumerate(l):
-    ans = max(ans, (n - i) * li)
+for i in range(n):
+    tmp = (n-i) * a[i]
+    ans = max(ans, tmp)
 print(ans)
