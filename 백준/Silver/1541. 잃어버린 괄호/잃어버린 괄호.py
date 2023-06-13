@@ -1,10 +1,5 @@
-import sys
-si = sys.stdin.readline
-
-exp = []
-for i in input().split('-'):
-    tmp = 0
-    for j in i.split('+'):
-        tmp += int(j)
-    exp.append(tmp)
-print(exp.pop(0) - sum(exp))
+inp = input().split('-')
+ans = sum(map(int, inp[0].split('+')))
+for sik in inp[1:]:
+    ans -= sum(map(int, sik.split('+')))
+print(ans)
