@@ -1,10 +1,13 @@
-import sys
-input = sys.stdin.readline
+def solve(s):
+    if n == 1:
+        print(1)
+        return
+    for i in range(1, n+1):
+        if s + i > n:
+            break
+        s += i
+    print(i-1)
 
 n = int(input())
-hap = 0
-i = 1
-while hap + i <= n:
-    hap += i
-    i += 1
-print(i-1)
+s = 0
+solve(s)
