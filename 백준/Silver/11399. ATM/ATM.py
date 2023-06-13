@@ -1,11 +1,11 @@
 n = int(input())
-p = sorted([*map(int, input().split())])
+ar = [*map(int, input().split())]
+ar.sort()
 
-# 걍 순서대로 시간이 족므 걸리는 순서대로 뽑아야 하는 거 아니야,,?
-sum = 0
-t = 0
-for pi in p:
-    sum += pi + t
-    t += pi
+time = 0
+ans = 0
 
-print(sum)
+for num in ar:
+    time += num
+    ans += time
+print(ans)
