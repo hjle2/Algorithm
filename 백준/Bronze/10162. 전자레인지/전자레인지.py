@@ -1,8 +1,19 @@
-t=int(input())
-a=300;b=60;c=10
-i=j=k=0
-if t>=a: i=t//a;t-=i*a
-if t>=b: j=t//b;t-=j*b
-if t>=c: k=t//c;t-=k*c
-t==0==print(i,j,k)
-t!=0==print(-1)
+a = 60 * 5
+b = 60
+c = 10
+
+n = int(input())
+ans = [0] * 3
+if n >= a:
+    ans[0] = n // a
+    n -= ans[0] * a
+if n >= b:
+    ans[1] = n // b
+    n -= ans[1] * b
+if n >= c:
+    ans[2] = n // c
+    n -= ans[2] * c
+if n == 0:
+    print(*ans)
+else:
+    print(-1)
