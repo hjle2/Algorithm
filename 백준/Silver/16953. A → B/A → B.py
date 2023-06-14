@@ -1,17 +1,17 @@
-import sys
-input = sys.stdin.readline
+def solve(a, b):
+    ans = 0
+    while a < b:
+        if not b % 2:
+            b //= 2
+        elif b % 10 == 1:
+            b -= 1
+            b //= 10
+        else:
+            print(-1)
+            return
+        ans += 1
+    print(ans + 1 if a == b else -1)
+
 
 a, b = map(int, input().split())
-
-# b->a로 생각
-# b의 끝자리가 1이 아니면 /2
-cnt = 0
-while a != b and a < b:
-    if b%10 == 1:
-        b //= 10
-    elif b % 2 == 0:
-        b //= 2
-    else:
-        break
-    cnt += 1
-print(cnt+1 if a == b else -1)
+solve(a, b)
