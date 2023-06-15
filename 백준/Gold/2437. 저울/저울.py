@@ -6,7 +6,7 @@ def solve():
             return
         s += c
     print(s+1)
-    
+
 
 n = int(input())
 chu = [*map(int, input().split())]
