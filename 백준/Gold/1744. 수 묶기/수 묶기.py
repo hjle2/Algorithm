@@ -1,38 +1,33 @@
-import sys
-input = sys.stdin.readline
-N = int(input())
-plus = []
-minus = []
-zeroCnt = 0
-for _ in range(N):
-    n = int(input())
-    if n < 0:
-        minus.append(n)
-    elif n > 0:
-        plus.append(n)
+n = int(input())
+negative = []
+positive = []
+zero = False
+for i in range(n):
+    x = int(input())
+    if x == 0:
+        zero = True
+    elif x < 0:
+        negative.append(x)
     else:
-        zeroCnt = 1
+        positive.append(x)
 
-plus.sort(reverse=True)
-minus.sort()
-
+negative.sort()
+positive.sort(reverse=True)
+# -는 -끼리 묶어서 상쇄시키자
+# +는 큰수끼리 곱해서 더 크게 만들자
+# 0이 있다면 하나 남은 음수는 0으로 처리
+# 0이 없으면 하나 남은 음수는 그냥 더해주기
 ans = 0
-while plus:
-    x = plus.pop(0)
-    if plus:
-        y = plus.pop(0)
-        if x * y > x + y:
-            ans += x * y
-        else:
-            ans += x + y
+for i in range(0, len(negative) - 1, 2):
+    ans += negative[i] * negative[i+1]
+if len(negative) % 2 != 0 and not zero:
+    ans += negative[-1]
+for i in range(0, len(positive) - 1, 2):
+    tmp = positive[i] * positive[i+1]
+    if positive[i] + positive[i+1] <= tmp:
+        ans += tmp
     else:
-        ans += x
-while minus:
-    x = minus.pop(0)
-    if minus:
-        y = minus.pop(0)
-        ans += x * y
-    else:
-        if not zeroCnt:
-            ans += x
+        ans += positive[i] + positive[i+1]
+if len(positive) % 2 != 0:
+    ans += positive[-1]
 print(ans)
