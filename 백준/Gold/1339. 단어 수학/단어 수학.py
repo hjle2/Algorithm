@@ -1,43 +1,21 @@
-import sys
-input = sys.stdin.readline
-
-cnt = [0] * 26
-val = [0] * 26
-
 n = int(input())
-nums = [[*input().strip()]for _ in range(n)]
-oa = ord('A')
+words = [[*input()] for _ in range(n)]
 
-for num in nums:
-    digit = 10 ** (len(num)-1)
-    for c in num:
-        cnt[ord(c) - oa] += digit
-        digit //= 10
+arr = [0] * 26                          # 각 알파벳마다의 가중치를 계산하기
+A = ord('A')
+for word in words:
+    l = len(word) - 1
+    for i, w in enumerate(word):
+        value = 10 ** (l - i)
+        arr[ord(w) - A] += value
 
-# for v in range(9, -1, -1):
-#     max_idx = -1
-#     max_cnt = 0
-#     for i, c in enumerate(cnt):
-#         if max_cnt < c:
-#             max_idx, max_cnt = i, c
-#     if max_idx == -1:
-#         break
-#     cnt[max_idx] = -1
-#     val[max_idx] = v
-#
-# ans = 0
-# for num in nums:
-#     digit = 10 ** (len(num)-1)
-#     for c in num:
-#         ans += val[ord(c) - oa] * digit
-#         digit //= 10
-# print(ans)
-
-cnt.sort(reverse=True)
-v = 9
-ans = 0
-for c in cnt:
-    if not c: break
-    ans += c * v
-    v -= 1
+ans, num = 0, 9                         # 가중치를 기반으로 알파벳에 숫자 부여하기
+while True:
+    max_value = max(arr)
+    if max_value == 0:
+        break
+    max_idx = arr.index(max_value)
+    ans += num * arr[max_idx]
+    arr[max_idx] = 0
+    num -= 1
 print(ans)
