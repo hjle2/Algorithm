@@ -12,7 +12,7 @@ def solve():
     que = deque([(n, 0)])
     while que:
         cur, cnt = que.pop()
-        # k번 연산을 끝낸 숫자 중에서 가장 큰 수를 가려낸다
+        # k번 연산을 끝낸 숫자 중에서 가장 큰 수가 정답
         if cnt == k:
             ans = max(ans, cur)
             continue
