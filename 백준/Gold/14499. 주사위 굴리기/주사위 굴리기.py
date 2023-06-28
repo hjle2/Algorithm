@@ -6,28 +6,28 @@ square = [0] * 6
 
 def turn(d, square):
     new_squre = [0] * 6
-    if d == 1: # 동쪽 굴림
+    if d == 1: # 동쪽
         new_squre[0] = square[2]
         new_squre[1] = square[3]
         new_squre[2] = square[1]
         new_squre[3] = square[0]
         new_squre[4] = square[4]
         new_squre[5] = square[5]
-    elif d == 2: # 서쪾 굴림
+    elif d == 2: # 서쪾
         new_squre[0] = square[3]
         new_squre[1] = square[2]
         new_squre[2] = square[0]
         new_squre[3] = square[1]
         new_squre[4] = square[4]
         new_squre[5] = square[5]
-    elif d == 3: # 북쪾 굴림
+    elif d == 3: # 북쪾
         new_squre[0] = square[4]
         new_squre[1] = square[5]
         new_squre[4] = square[1]
         new_squre[5] = square[0]
         new_squre[2] = square[2]
         new_squre[3] = square[3]
-    elif d == 4: # 남쪽 굴림
+    elif d == 4: # 남쪽
         new_squre[0] = square[5]
         new_squre[1] = square[4]
         new_squre[4] = square[0]
