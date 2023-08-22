@@ -4,3 +4,6 @@ people = []
 for _ in range(M):
     a, b = map(int, input().split())
     people.append((a-1, b-1))
+
+def turn(sx, sy, ex, ey):
+    pass
