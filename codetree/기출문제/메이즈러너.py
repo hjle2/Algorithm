@@ -21,6 +21,7 @@ def get_max_square():
     pass
 
 
+
 def is_possible(square_size):
     pass
 
