@@ -35,6 +35,7 @@ def move():
         people.pop(i)
 
 
+
 def get_direction(x, y):
     ddx = abs(exit[0] - x)
     ddy = abs(exit[1] - y)
