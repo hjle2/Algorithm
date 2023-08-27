@@ -9,6 +9,7 @@ a, b = map(int, input().split())
 board[a-1][b-1] = -1
 exit = (a-1, b-1)
 
+
 dx = [0, 1, 0, -1]
 dy = [1, 0, -1, 0]
 
