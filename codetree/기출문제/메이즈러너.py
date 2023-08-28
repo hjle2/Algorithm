@@ -3,12 +3,10 @@ board = [[*map(int, input().split())]for _ in range(N)]
 people = []
 for _ in range(M):
     a, b = map(int, input().split())
-    board[a-1][b-1] = -2
     people.append((a-1, b-1))
 a, b = map(int, input().split())
 board[a-1][b-1] = -1
 exit = (a-1, b-1)
-
 
 dx = [0, 1, 0, -1]
 dy = [1, 0, -1, 0]
@@ -23,18 +21,13 @@ def move():
         if not (0 <= nx < N and 0 <= ny < N) or board[nx][ny] > 0: continue
         if (nx, ny) == exit:
             ret.append(i)
-            board[x][y] = 0
             ans += abs(nx - x) + abs(ny - y)
             continue
         ans += abs(nx - x) + abs(ny - y)
-        if board[x][y] != -1:
-            board[x][y] = 0
-        board[nx][ny] = -2
         people[i] = (nx, ny)
 
     for i in ret[::-1]:
         people.pop(i)
-
 
 
 def get_direction(x, y):
@@ -111,18 +104,23 @@ def rotate_squre(sx, sy, size):
         for j in range(sy, sy + size+1):
             tmp[i-sx][j-sy] = board[i][j]
 
-    global exit, people
-    people = []
+    global exit
     for i in range(size+1):
         for j in range(size+1):
             board[sx+i][sy+j] = tmp[size-j][i]
             if board[sx+i][sy+j] == -1:
                 exit = (sx+i, sy+j)
-    for i in range(N):
-        for j in range(N):
-            if board[i][j] == -2:
-                people.append((i, j))
     # 출구 위치 찾기
+
+    # 사람 돌리기
+    for i, (x, y) in enumerate(people):
+        if sx <= x <= sx + size and sy <= y <= sy + size:
+            # Step 1. (sx, sy)를 (0, 0)으로 옮겨주는 변환을 진행합니다.
+            ox, oy = x - sx, y - sy
+            # Step 2. 변환된 상태에서는 회전 이후의 좌표가 (x, y) . (y, square_n - x - 1)가 됩니다.
+            rx, ry = oy, size - ox
+            # Step 3. 다시 (sx, sy)를 더해줍니다.
+            people[i] = (rx + sx, ry + sy)
 
     # 내구도 감소
     for x in range(sx, sx + size+1):
