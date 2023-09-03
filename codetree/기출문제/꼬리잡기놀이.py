@@ -10,6 +10,7 @@ def in_range(r, c):
     return 0 <= r < n  and 0 <= c < n
 
 
+
 # 새로운 헤드 구하기
 def get_new_head(r, c):
     rr, rc = 0, 0
