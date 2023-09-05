@@ -14,7 +14,6 @@ public class Main {
             String cmd = st.nextToken();
             switch (cmd) {
                 case "push":
-                    
                     s.push(Integer.parseInt(st.nextToken()));
                 break;
                 case "pop":
