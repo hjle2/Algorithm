@@ -10,6 +10,7 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         
         for (int i=0; i<N; i++) {
+            
             StringTokenizer st = new StringTokenizer(br.readLine());
             String cmd = st.nextToken();
             switch (cmd) {
