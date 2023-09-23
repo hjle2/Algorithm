@@ -14,8 +14,6 @@ for _ in range(e):
     graph[a].append(b)
     indegree[b] += 1
 
-
-# 위상 정렬 함수
 def topology_sort():
     result = []
     q = deque()
