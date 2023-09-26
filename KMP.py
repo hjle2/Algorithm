@@ -12,7 +12,6 @@ def KMP(word, pattern):
             i += 1
             table[j] = i
     # <<
-    
 
     # KMP 알고리즘을 이용하여 패턴 찾기
     ret = []
