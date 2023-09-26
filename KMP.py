@@ -1,32 +1,29 @@
-def KMP(word, pattern):
-    n = len(pattern)
-    
-    # table 만들기
-    table = [0] * n
+def KMP(full_string, pattern):
+    # << kmp table
+    n_p = len(pattern)
+    table = [0] * n_p
     i = 0
-    for j in range(n):
+    for j in range(1, n_p):
         while i > 0 and pattern[i] != pattern[j]:
             i = table[i-1]
 
         if pattern[i] == pattern[j]:
             i += 1
             table[j] = i
-    # <<
 
-    # KMP 알고리즘을 이용하여 패턴 찾기
-    ret = []
-    n = len(word)
+    # kmp
+    n_f = len(full_string)
     i = 0
-    for j in range(n):
-        while i > 0 and pattern[i] != word[j]:
+    ret = []
+    for j in range(n_f):
+        while i > 0 and pattern[i] != full_string[j]:
             i = table[i-1]
-        
-        if pattern[i] == word[j]:
+
+        if pattern[i] == full_string[j]:
             i += 1
             if i == len(pattern):
                 ret.append(j - i + 1)
                 i = table[i-1]
-    # <<
     return ret
-    
-    
+
+
