@@ -21,7 +21,6 @@ def topology_sort():
     for i in range(1, v + 1):
         if indegree[i] == 0:
             q.append(i)
-
     while q:
         now = q.popleft()
         result.append(now)
