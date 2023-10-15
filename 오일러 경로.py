@@ -8,7 +8,6 @@ myList = []
 for i in range(N):
     myList.append([*map(int,sys.stdin.readline().rstrip().split())])
 
-
 graph = {}
 
 for i in range(N):
