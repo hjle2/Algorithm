@@ -21,6 +21,7 @@ for i in range(N):
         print(-1)
         sys.exit()
 
+
 def dfs(nowNode):
     for i in graph[nowNode]:
         if myList[nowNode][i]:
