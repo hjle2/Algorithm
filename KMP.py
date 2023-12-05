@@ -11,7 +11,7 @@ def KMP(full_string, pattern):
             i += 1
             table[j] = i 
             
-    # kmp 
+    # kmp
     n_f = len(full_string)
     i = 0
     ret = []
