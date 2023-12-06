@@ -9,7 +9,7 @@ def KMP(full_string, pattern):
   
         if pattern[i] == pattern[j]:
             i += 1
-            table[j] = i 
+            table[j] = i
             
     # kmp
     n_f = len(full_string)
