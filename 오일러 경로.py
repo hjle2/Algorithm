@@ -11,7 +11,7 @@ for i in range(N):
 graph = {}  
 
 for i in range(N):
-    graph[i] = []
+    graph[i] = [] 
     rowSum  = 0 
     for j in range(N):
         for k in range(myList[i][j]):
