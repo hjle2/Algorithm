@@ -19,7 +19,7 @@ for i in range(N):
             graph[i].append(j)
     if rowSum%2==1:
         print(-1)
-        sys.exit()
+        sys.exit() 
 
 
 def dfs(nowNode):
