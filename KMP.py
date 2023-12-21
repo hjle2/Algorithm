@@ -1,4 +1,4 @@
-def KMP(full_string, pattern):
+def KMP(full_string, pattern): 
     # << kmp table
     n_p = len(pattern)
     table = [0] * n_p
