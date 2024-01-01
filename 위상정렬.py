@@ -12,7 +12,7 @@ graph = [[] for _ in range(v + 1)]
 for _ in range(e):
     a, b = map(int, input().split())
     graph[a].append(b)
-    indegree[b] += 1 
+    indegree[b] += 1
 
 
 def topology_sort():
