@@ -14,7 +14,7 @@ def KMP(full_string, pattern):
     # kmp
     n_f = len(full_string)
     i = 0
-    ret = [] 
+    ret = []
     for j in range(n_f):
         while i > 0 and pattern[i] != full_string[j]:
             i = table[i-1]
